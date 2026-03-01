@@ -10,17 +10,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- ── Styles locaux ──────────────────────────────────── -->
+   
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="min-h-screen relative">
 
-    <!-- ── Grille de fond décorative ──────────────────────── -->
+    
     <div class="fixed inset-0 bg-grid pointer-events-none"></div>
 
-    <!-- ════════════════════════════════════════════════════
-         NAVIGATION
-         ════════════════════════════════════════════════════ -->
+    
     <nav class="fixed w-full z-50 glass border-b border-zinc-800">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <!-- Logo -->
@@ -47,12 +45,10 @@
         </div>
     </nav>
 
-    <!-- ════════════════════════════════════════════════════
-         CONTENU PRINCIPAL
-         ════════════════════════════════════════════════════ -->
+    <!--CONTENU PRINCIPAL -->
     <main class="pt-24 pb-12 px-6 max-w-7xl mx-auto relative z-10">
 
-        <!-- ── En-tête ──────────────────────────────────── -->
+        <!--  En-tête -->
         <div class="mb-12">
             <h1 class="text-4xl font-light mb-3 tracking-tight">Autonomous Testing Platform</h1>
             <p class="text-zinc-400 max-w-2xl">
@@ -61,7 +57,7 @@
             </p>
         </div>
 
-        <!-- ── Panneau Orchestrateur ─────────────────────── -->
+        <!-- ── Panneau Orchestrateur  -->
         <div class="glass rounded-lg p-6 mb-8 glow">
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center gap-3">
@@ -78,7 +74,7 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
-                <!-- Champ URL cible + bouton Initialize -->
+                
                 <div class="md:col-span-2">
                     <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider">
                         Target URL or Project Description
@@ -98,7 +94,7 @@
                         </button>
                     </div>
                 </div>
-                <!-- Log de l'orchestrateur -->
+                
                 <div class="bg-zinc-900 rounded p-4 border border-zinc-800">
                     <div class="text-xs text-zinc-500 mb-2 uppercase tracking-wider">Orchestrator Log</div>
                     <div id="orchestrator-log" class="text-xs mono text-zinc-400 h-20 overflow-y-auto space-y-1">
@@ -108,10 +104,10 @@
             </div>
         </div>
 
-        <!-- ── Grille des agents ─────────────────────────── -->
+        <!-- ── Grille des agents -->
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8" id="agents-grid">
 
-            <!-- Context Analyzer -->
+            
             <div class="glass rounded-lg p-5 glow-hover transition-all cursor-pointer" onclick="openAgentChat('analyzer')">
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex items-center gap-3">
@@ -339,7 +335,7 @@
             </div>
         </div><!-- /#testing-panel -->
 
-        <!-- ── Section Rapports ──────────────────────────── -->
+        <!-- ── Section Rapports  -->
         <div class="glass rounded-lg p-6 border-zinc-800 reports-section">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-lg font-medium">Generated Reports &amp; Insights</h2>
@@ -435,9 +431,7 @@
 
     </main>
 
-    <!-- ════════════════════════════════════════════════════
-         MODAL : CHAT AGENT
-         ════════════════════════════════════════════════════ -->
+    <!-- MODAL : CHAT AGENT -->
     <div id="chat-modal" class="fixed inset-0 z-50 hidden modal-overlay flex items-center justify-center p-4">
         <div class="glass rounded-lg w-full max-w-2xl border border-zinc-700 shadow-2xl flex flex-col max-h-[80vh]">
             <!-- En-tête modal -->
@@ -487,9 +481,7 @@
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════════
-         NOTIFICATION DE TÉLÉCHARGEMENT
-         ════════════════════════════════════════════════════ -->
+    <!--  NOTIFICATION DE TÉLÉCHARGEMENT -->
     <div id="download-notification"
          class="fixed bottom-4 right-4 glass rounded-lg p-4 border border-blue-800 hidden transform transition-all duration-300 translate-y-20">
         <div class="flex items-center gap-3">
@@ -506,16 +498,15 @@
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════════
-         SCRIPTS JAVASCRIPT — ordre de chargement important
+    <!--  SCRIPTS JAVASCRIPT — ordre de chargement important
          1. state.js   → variables globales partagées
          2. agents.js  → statuts et logs des agents
          3. charts.js  → initialisation Chart.js
          4. chat.js    → système de chat modal
          5. testing.js → logique de simulation
          6. reports.js → rapports et insights
-         7. ui.js      → navigation, modes, init DOMContentLoaded
-         ════════════════════════════════════════════════════ -->
+         7. ui.js      → navigation, modes, init DOMContentLoaded-->
+    
     <script src="js/state.js"></script>
     <script src="js/agents.js"></script>
     <script src="js/charts.js"></script>
