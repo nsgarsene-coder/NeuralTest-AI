@@ -1,0 +1,202 @@
+/* =
+
+/* ── Variables CSS (Design Tokens) ─────────────────────────── */
+:root {
+    --bg-primary:    #0a0a0a;
+    --bg-secondary:  #141414;
+    --bg-tertiary:   #1a1a1a;
+    --accent:        #2563eb;
+    --accent-hover:  #3b82f6;
+    --text-primary:  #fafafa;
+    --text-secondary:#a1a1aa;
+    --text-tertiary: #52525b;
+    --border:        #27272a;
+    --success:       #10b981;
+    --warning:       #f59e0b;
+    --error:         #ef4444;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+.mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* ── Scrollbar personnalisée ────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
+}
+
+/* ── Effets lumineux (glow) ─────────────────────────────────── */
+.glow {
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+}
+
+.glow-hover:hover {
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.25);
+}
+
+/* ── Transitions ────────────────────────────────────────────── */
+.transition-all {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Grille de fond ─────────────────────────────────────────── */
+.bg-grid {
+    background-image:
+        linear-gradient(to right,  var(--border) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.2;
+}
+
+/* ── Glass morphism ─────────────────────────────────────────── */
+.glass {
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+}
+
+/* ── Boutons ────────────────────────────────────────────────── */
+.btn-primary {
+    background-color: var(--accent);
+    color: white;
+    transition: all 0.2s;
+}
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+.btn-secondary:hover {
+    background-color: var(--border);
+    border-color: var(--text-tertiary);
+}
+
+/* ── Champs de saisie ───────────────────────────────────────── */
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ── Indicateurs de statut des agents ──────────────────────── */
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.status-idle     { background-color: var(--text-tertiary); }
+.status-active   { background-color: var(--success); box-shadow: 0 0 8px var(--success); }
+.status-thinking { background-color: var(--warning); box-shadow: 0 0 8px var(--warning); animation: pulse 2s infinite; }
+.status-error    { background-color: var(--error);   box-shadow: 0 0 8px var(--error); }
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); }
+    30%            { transform: translateY(-4px); }
+}
+
+@keyframes downloadPulse {
+    0%   { box-shadow: 0 0 0 0   rgba(37, 99, 235, 0.4); }
+    70%  { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+    100% { box-shadow: 0 0 0 0   rgba(37, 99, 235, 0); }
+}
+
+/* ── Interface de chat ──────────────────────────────────────── */
+.chat-message {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* ── Indicateur de frappe (typing dots) ─────────────────────── */
+.typing-indicator span {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background-color: var(--text-secondary);
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+    margin: 0 1px;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ── Cartes de rapport ──────────────────────────────────────── */
+.report-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+}
+.report-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+/* ── Overlay modal ──────────────────────────────────────────── */
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+/* ── Conteneur de visualisation sandbox ─────────────────────── */
+.viz-container {
+    background: var(--bg-secondary);
+    position: relative;
+    overflow: hidden;
+}
+
+.viz-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+/* ── Animation bouton téléchargement ────────────────────────── */
+.download-active {
+    animation: downloadPulse 2s infinite;
+}

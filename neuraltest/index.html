@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuralTest AI — Autonomous Testing Platform</title>
+
+    <!-- ── Dépendances externes (CDN) ─────────────────────── -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- ── Styles locaux ──────────────────────────────────── -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen relative">
+
+    <!-- ── Grille de fond décorative ──────────────────────── -->
+    <div class="fixed inset-0 bg-grid pointer-events-none"></div>
+
+    <!-- ════════════════════════════════════════════════════
+         NAVIGATION
+         ════════════════════════════════════════════════════ -->
+    <nav class="fixed w-full z-50 glass border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                    </svg>
+                </div>
+                <span class="text-lg font-semibold tracking-tight">NeuralTest</span>
+                <span class="text-xs text-zinc-500 ml-2 px-2 py-0.5 bg-zinc-800 rounded">v2.0</span>
+            </div>
+            <!-- Liens de navigation -->
+            <div class="flex items-center gap-6 text-sm text-zinc-400">
+                <button onclick="showSection('dashboard')" class="hover:text-white transition">Dashboard</button>
+                <button onclick="showSection('agents')"    class="hover:text-white transition">Agents</button>
+                <button onclick="showSection('reports')"   class="hover:text-white transition">Reports</button>
+                <div class="flex items-center gap-2 text-xs text-zinc-500">
+                    <span class="status-dot status-active"></span>
+                    System Online
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════
+         CONTENU PRINCIPAL
+         ════════════════════════════════════════════════════ -->
+    <main class="pt-24 pb-12 px-6 max-w-7xl mx-auto relative z-10">
+
+        <!-- ── En-tête ──────────────────────────────────── -->
+        <div class="mb-12">
+            <h1 class="text-4xl font-light mb-3 tracking-tight">Autonomous Testing Platform</h1>
+            <p class="text-zinc-400 max-w-2xl">
+                Deploy specialized AI agents to analyze, test, and validate your applications.
+                Coordinated intelligence for comprehensive quality assurance.
+            </p>
+        </div>
+
+        <!-- ── Panneau Orchestrateur ─────────────────────── -->
+        <div class="glass rounded-lg p-6 mb-8 glow">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <span class="status-dot status-active"></span>
+                    <h2 class="text-lg font-medium">Orchestrator Control</h2>
+                </div>
+                <!-- Boutons de mode -->
+                <div class="flex gap-2">
+                    <button onclick="setMode('comprehensive')" class="mode-btn px-3 py-1.5 text-xs rounded bg-blue-600 text-white transition"            data-mode="comprehensive">Comprehensive</button>
+                    <button onclick="setMode('security')"      class="mode-btn px-3 py-1.5 text-xs rounded bg-zinc-800 text-zinc-400 hover:text-white transition" data-mode="security">Security</button>
+                    <button onclick="setMode('performance')"   class="mode-btn px-3 py-1.5 text-xs rounded bg-zinc-800 text-zinc-400 hover:text-white transition" data-mode="performance">Performance</button>
+                    <button onclick="setMode('ux')"            class="mode-btn px-3 py-1.5 text-xs rounded bg-zinc-800 text-zinc-400 hover:text-white transition" data-mode="ux">UX Analysis</button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Champ URL cible + bouton Initialize -->
+                <div class="md:col-span-2">
+                    <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider">
+                        Target URL or Project Description
+                    </label>
+                    <div class="flex gap-3">
+                        <input type="text" id="target-url"
+                               placeholder="https://api.example.com or describe your application..."
+                               class="flex-1 bg-zinc-900 border border-zinc-700 rounded px-4 py-3 text-sm mono focus:border-blue-600 transition">
+                        <button onclick="startAnalysis()" class="btn-primary px-6 py-3 rounded font-medium text-sm flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Initialize
+                        </button>
+                    </div>
+                </div>
+                <!-- Log de l'orchestrateur -->
+                <div class="bg-zinc-900 rounded p-4 border border-zinc-800">
+                    <div class="text-xs text-zinc-500 mb-2 uppercase tracking-wider">Orchestrator Log</div>
+                    <div id="orchestrator-log" class="text-xs mono text-zinc-400 h-20 overflow-y-auto space-y-1">
+                        <div class="text-zinc-600">> System initialized. Waiting for target...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Grille des agents ─────────────────────────── -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8" id="agents-grid">
+
+            <!-- Context Analyzer -->
+            <div class="glass rounded-lg p-5 glow-hover transition-all cursor-pointer" onclick="openAgentChat('analyzer')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded bg-blue-900/30 border border-blue-800 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-sm">Context Analyzer</h3>
+                            <p class="text-xs text-zinc-500">Architecture detection</p>
+                        </div>
+                    </div>
+                    <span class="status-dot status-idle" id="status-analyzer"></span>
+                </div>
+                <div class="bg-zinc-900 rounded p-3 text-xs mono text-zinc-500 h-16 overflow-hidden" id="log-analyzer">
+                    Standby
+                </div>
+                <div class="mt-3 flex justify-between items-center text-xs">
+                    <span class="text-blue-500">Click to configure</span>
+                    <span class="text-zinc-600">ID: AG-001</span>
+                </div>
+            </div>
+
+            <!-- Test Manager -->
+            <div class="glass rounded-lg p-5 glow-hover transition-all cursor-pointer" onclick="openAgentChat('manager')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded bg-purple-900/30 border border-purple-800 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-sm">Test Manager</h3>
+                            <p class="text-xs text-zinc-500">Strategy & planning</p>
+                        </div>
+                    </div>
+                    <span class="status-dot status-idle" id="status-manager"></span>
+                </div>
+                <div class="bg-zinc-900 rounded p-3 text-xs mono text-zinc-500 h-16 overflow-hidden" id="log-manager">
+                    Awaiting analysis report
+                </div>
+                <div class="mt-3 flex justify-between items-center text-xs">
+                    <span class="text-purple-500">Click to configure</span>
+                    <span class="text-zinc-600">ID: AG-002</span>
+                </div>
+            </div>
+
+            <!-- Orchestrator (nœud maître, non cliquable) -->
+            <div class="glass rounded-lg p-5 border-blue-800/50 bg-blue-950/10">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded bg-blue-600 flex items-center justify-center animate-pulse">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-sm text-blue-400">Orchestrator</h3>
+                            <p class="text-xs text-blue-300/50">Central coordination</p>
+                        </div>
+                    </div>
+                    <span class="status-dot status-active" id="status-orchestrator"></span>
+                </div>
+                <div class="bg-zinc-900/50 rounded p-3 text-xs mono text-blue-300/70 h-16 overflow-hidden" id="log-orchestrator">
+                    <span class="typing-indicator"><span></span><span></span><span></span></span>
+                    Active coordination...
+                </div>
+                <div class="mt-3 flex justify-between items-center text-xs text-blue-400/60">
+                    <span>Master node</span>
+                    <span>v2.4.1-stable</span>
+                </div>
+            </div>
+
+            <!-- User Simulator -->
+            <div class="glass rounded-lg p-5 glow-hover transition-all cursor-pointer" onclick="openAgentChat('user')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded bg-emerald-900/30 border border-emerald-800 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-sm">User Simulator</h3>
+                            <p class="text-xs text-zinc-500">Behavioral testing</p>
+                        </div>
+                    </div>
+                    <span class="status-dot status-idle" id="status-user"></span>
+                </div>
+                <div class="flex gap-2 mb-3">
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">Novice</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">Expert</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">Hostile</span>
+                </div>
+                <div class="bg-zinc-900 rounded p-3 text-xs mono text-zinc-500 h-12 overflow-hidden" id="log-user">
+                    Awaiting assignment
+                </div>
+            </div>
+
+            <!-- Security Tester -->
+            <div class="glass rounded-lg p-5 glow-hover transition-all cursor-pointer" onclick="openAgentChat('security')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded bg-red-900/30 border border-red-800 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-sm">Security Tester</h3>
+                            <p class="text-xs text-zinc-500">Penetration testing</p>
+                        </div>
+                    </div>
+                    <span class="status-dot status-idle" id="status-security"></span>
+                </div>
+                <select class="w-full bg-zinc-900 border border-zinc-700 rounded px-2 py-1.5 text-xs text-zinc-400 mb-3 focus:border-red-600"
+                        id="security-mode" onchange="updateSecurityMode(this.value)">
+                    <option value="recon">Passive reconnaissance</option>
+                    <option value="injection">Injection testing</option>
+                    <option value="fuzz">Fuzzing</option>
+                    <option value="dos">Controlled stress</option>
+                </select>
+                <div class="bg-zinc-900 rounded p-3 text-xs mono text-zinc-500 h-12 overflow-hidden" id="log-security">
+                    Mode: Passive reconnaissance
+                </div>
+            </div>
+
+            <!-- Load & Data -->
+            <div class="glass rounded-lg p-5 glow-hover transition-all cursor-pointer" onclick="openAgentChat('load')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded bg-orange-900/30 border border-orange-800 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-sm">Load & Data</h3>
+                            <p class="text-xs text-zinc-500">Performance analytics</p>
+                        </div>
+                    </div>
+                    <span class="status-dot status-idle" id="status-load"></span>
+                </div>
+                <div class="mb-3">
+                    <div class="flex justify-between text-xs text-zinc-500 mb-1">
+                        <span>Simulated users</span>
+                        <span class="text-orange-400 mono" id="load-value">1,000</span>
+                    </div>
+                    <input type="range" min="100" max="100000" value="1000" step="100"
+                           class="w-full h-1 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                           oninput="updateLoadValue(this.value)">
+                </div>
+                <div class="bg-zinc-900 rounded p-3 text-xs mono text-zinc-500 h-12 overflow-hidden" id="log-load">
+                    Configured: 1000 concurrent users
+                </div>
+            </div>
+
+        </div><!-- /#agents-grid -->
+
+        <!-- ── Panneau de test (masqué par défaut) ────────── -->
+        <div id="testing-panel" class="hidden mb-8">
+            <div class="glass rounded-lg p-6 border-zinc-800">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                        <h2 class="text-lg font-medium">Sandbox Environment</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="pauseTesting()" class="btn-secondary px-4 py-2 rounded text-sm">Pause</button>
+                        <button onclick="stopTesting()"  class="px-4 py-2 rounded text-sm bg-red-900/30 border border-red-800 text-red-400 hover:bg-red-900/50 transition">Terminate</button>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <!-- Visualisation sandbox -->
+                    <div class="lg:col-span-2">
+                        <div class="viz-container rounded-lg h-64 mb-4 relative" id="viz-sandbox">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="text-2xl font-light text-zinc-600 mb-2">Sandbox Active</div>
+                                    <div class="text-xs text-zinc-500 mono">Isolated environment — No production impact</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Métriques -->
+                        <div class="grid grid-cols-4 gap-3">
+                            <div class="bg-zinc-900 rounded p-3 border border-zinc-800">
+                                <div class="text-2xl font-light text-white mono" id="metric-req">0</div>
+                                <div class="text-xs text-zinc-500 mt-1">Requests/min</div>
+                            </div>
+                            <div class="bg-zinc-900 rounded p-3 border border-zinc-800">
+                                <div class="text-2xl font-light text-emerald-400 mono" id="metric-latency">0ms</div>
+                                <div class="text-xs text-zinc-500 mt-1">Avg latency</div>
+                            </div>
+                            <div class="bg-zinc-900 rounded p-3 border border-zinc-800">
+                                <div class="text-2xl font-light text-red-400 mono" id="metric-errors">0</div>
+                                <div class="text-xs text-zinc-500 mt-1">Errors</div>
+                            </div>
+                            <div class="bg-zinc-900 rounded p-3 border border-zinc-800">
+                                <div class="text-2xl font-light text-blue-400 mono" id="metric-coverage">0%</div>
+                                <div class="text-xs text-zinc-500 mt-1">Coverage</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flux de logs en direct -->
+                    <div class="bg-zinc-900 rounded-lg border border-zinc-800 p-4 h-96 flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs text-zinc-500 uppercase tracking-wider">Live Stream</span>
+                            <button onclick="clearLogs()" class="text-xs text-zinc-600 hover:text-zinc-400">Clear</button>
+                        </div>
+                        <div id="live-logs" class="flex-1 overflow-y-auto space-y-2 text-xs mono">
+                            <div class="text-zinc-600 border-l-2 border-zinc-700 pl-2">Initializing sandbox...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /#testing-panel -->
+
+        <!-- ── Section Rapports ──────────────────────────── -->
+        <div class="glass rounded-lg p-6 border-zinc-800 reports-section">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-lg font-medium">Generated Reports &amp; Insights</h2>
+                <div class="flex gap-2">
+                    <button onclick="downloadReport('pdf')" class="btn-secondary px-4 py-2 rounded text-sm flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        PDF
+                    </button>
+                    <button onclick="downloadReport('json')" class="btn-secondary px-4 py-2 rounded text-sm flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        JSON
+                    </button>
+                </div>
+            </div>
+
+            <!-- Graphiques -->
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-zinc-900 rounded-lg p-4 border border-zinc-800">
+                    <h3 class="text-sm text-zinc-400 mb-4">Test Coverage by Module</h3>
+                    <canvas id="coverageChart" height="200"></canvas>
+                </div>
+                <div class="bg-zinc-900 rounded-lg p-4 border border-zinc-800">
+                    <h3 class="text-sm text-zinc-400 mb-4">Issues by Severity</h3>
+                    <canvas id="issuesChart" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- Liste des insights IA -->
+            <div class="space-y-3" id="insights-list">
+
+                <!-- Insight : optimisation BDD -->
+                <div class="report-card rounded-lg p-4 cursor-pointer" onclick="toggleInsight(this)">
+                    <div class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded bg-blue-900/30 border border-blue-800 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-medium text-sm text-blue-400">Database Query Optimization Detected</h4>
+                                <span class="text-xs text-zinc-500 mono">2m ago</span>
+                            </div>
+                            <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+                                N+1 query pattern identified on endpoint /api/users.
+                                Recommendation: implement eager loading or DataLoader pattern to reduce round-trips by 85%.
+                            </p>
+                            <div class="mt-3 flex gap-2">
+                                <button onclick="downloadInsight(this, 'query-optimization')" class="text-xs text-blue-500 hover:text-blue-400 transition">Download details</button>
+                                <span class="text-zinc-700">|</span>
+                                <button onclick="applyFix('nplus1')" class="text-xs text-emerald-500 hover:text-emerald-400 transition">View fix suggestion</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insight : vulnérabilité XSS -->
+                <div class="report-card rounded-lg p-4 cursor-pointer" onclick="toggleInsight(this)">
+                    <div class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded bg-red-900/30 border border-red-800 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-medium text-sm text-red-400">XSS Vulnerability in Comment Form</h4>
+                                <span class="text-xs text-zinc-500 mono">5m ago</span>
+                            </div>
+                            <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+                                Input sanitization missing on 'comment' field.
+                                Payload executed: &lt;script&gt;alert('xss')&lt;/script&gt;.
+                                Severity: High. Immediate fix required.
+                            </p>
+                            <div class="mt-3 flex gap-2">
+                                <button onclick="downloadInsight(this, 'xss-vuln')" class="text-xs text-red-500 hover:text-red-400 transition">Download security report</button>
+                                <span class="text-zinc-700">|</span>
+                                <button onclick="applyFix('xss')" class="text-xs text-emerald-500 hover:text-emerald-400 transition">View patch</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /#insights-list -->
+        </div><!-- /.reports-section -->
+
+    </main>
+
+    <!-- ════════════════════════════════════════════════════
+         MODAL : CHAT AGENT
+         ════════════════════════════════════════════════════ -->
+    <div id="chat-modal" class="fixed inset-0 z-50 hidden modal-overlay flex items-center justify-center p-4">
+        <div class="glass rounded-lg w-full max-w-2xl border border-zinc-700 shadow-2xl flex flex-col max-h-[80vh]">
+            <!-- En-tête modal -->
+            <div class="flex items-center justify-between p-4 border-b border-zinc-800">
+                <div class="flex items-center gap-3">
+                    <span id="chat-agent-status" class="status-dot status-idle"></span>
+                    <div>
+                        <h3 class="font-medium" id="chat-agent-name">Agent Configuration</h3>
+                        <p class="text-xs text-zinc-500" id="chat-agent-role">Direct communication channel</p>
+                    </div>
+                </div>
+                <button onclick="closeChat()" class="text-zinc-500 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- Zone de messages -->
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 min-h-[300px] max-h-[400px]">
+                <div class="chat-message bg-zinc-900 rounded-lg p-3 border border-zinc-800">
+                    <div class="text-xs text-zinc-500 mb-1 mono">AGENT</div>
+                    <p class="text-sm text-zinc-300">Ready to receive instructions. What specific parameters would you like to configure for this testing session?</p>
+                </div>
+            </div>
+            <!-- Zone de saisie -->
+            <div class="p-4 border-t border-zinc-800">
+                <div class="flex gap-2">
+                    <input type="text" id="chat-input"
+                           placeholder="Enter specific instructions for this agent..."
+                           class="flex-1 bg-zinc-900 border border-zinc-700 rounded px-3 py-2 text-sm focus:border-blue-600 transition"
+                           onkeypress="if(event.key==='Enter') sendChatMessage()">
+                    <button onclick="sendChatMessage()" class="btn-primary px-4 py-2 rounded">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Suggestions rapides -->
+                <div class="mt-2 flex gap-2 text-xs text-zinc-600">
+                    <span>Suggestions:</span>
+                    <button onclick="setChatInput('Increase test depth to maximum')"          class="hover:text-zinc-400 transition">Max depth</button>
+                    <button onclick="setChatInput('Focus on authentication flows')"           class="hover:text-zinc-400 transition">Auth only</button>
+                    <button onclick="setChatInput('Generate edge cases for payment module')"  class="hover:text-zinc-400 transition">Payment edges</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         NOTIFICATION DE TÉLÉCHARGEMENT
+         ════════════════════════════════════════════════════ -->
+    <div id="download-notification"
+         class="fixed bottom-4 right-4 glass rounded-lg p-4 border border-blue-800 hidden transform transition-all duration-300 translate-y-20">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-blue-900/50 flex items-center justify-center">
+                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+            </div>
+            <div>
+                <div class="text-sm font-medium">Report downloaded</div>
+                <div class="text-xs text-zinc-500" id="download-filename">neuraltest-report.pdf</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         SCRIPTS JAVASCRIPT — ordre de chargement important
+         1. state.js   → variables globales partagées
+         2. agents.js  → statuts et logs des agents
+         3. charts.js  → initialisation Chart.js
+         4. chat.js    → système de chat modal
+         5. testing.js → logique de simulation
+         6. reports.js → rapports et insights
+         7. ui.js      → navigation, modes, init DOMContentLoaded
+         ════════════════════════════════════════════════════ -->
+    <script src="js/state.js"></script>
+    <script src="js/agents.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/testing.js"></script>
+    <script src="js/reports.js"></script>
+    <script src="js/ui.js"></script>
+
+</body>
+</html>
